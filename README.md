@@ -1,4 +1,4 @@
-📦 InventoryPro v2.0 - Sistem de Gestiune Inventar Auto
+📦 InventoryPro  - Sistem de Gestiune Inventar Auto
 
 
 
