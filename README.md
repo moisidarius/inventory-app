@@ -1,16 +1,15 @@
-📦 InventoryPro  - Sistem de Gestiune Inventar Auto
+ InventoryPro  - Sistem de Gestiune Inventar Auto
 
 
 
-📖 Descriere Generală
+ Descriere Generală
 
 
 
-InventoryPro v2.0 este o aplicație full-stack complexă destinată managementului stocurilor de piese auto. Proiectul pune accent pe trasabilitate (Audit Log), performanță și portabilitate, fiind complet containerizat și optimizat pentru un flux de lucru modern.
+InventoryPro este o aplicație full-stack complexă destinată managementului stocurilor de piese auto. Proiectul pune accent pe trasabilitate (Audit Log), performanță și portabilitate, fiind complet containerizat și optimizat pentru un flux de lucru modern.
 
 
-
-🛠️ Stiva Tehnologică \& Arhitectură
+ Stiva Tehnologică \& Arhitectură
 
 
 
@@ -58,7 +57,7 @@ Modern UI: Design responsiv, stilizat cu variabile CSS și efecte de feedback vi
 
 
 
-🏗️ Disecția Arhitecturală (Deep Dive)
+ Disecția Arhitecturală (Deep Dive)
 
 
 
@@ -98,7 +97,7 @@ Sistemul folosește autentificare bazată pe Header-ul Authorization. Deoarece a
 
 
 
-🚀 Instalare și Rulare
+Instalare și Rulare
 
 
 
@@ -106,7 +105,7 @@ Datorită containerizării, aplicația poate fi pornită pe orice sistem care ar
 
 
 
-Comenzi Terminal:
+ Comenzi Terminal:
 
 
 
@@ -148,7 +147,7 @@ API Status: http://localhost:8080/api/v1/inventory
 
 
 
-📊 Structura Bazei de Date
+ Structura Bazei de Date
 
 
 
