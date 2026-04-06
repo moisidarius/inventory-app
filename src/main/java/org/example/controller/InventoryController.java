@@ -5,7 +5,6 @@ import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -14,10 +13,15 @@ public class InventoryController {
 
     @Autowired private ProductRepository productRepository;
     @Autowired private TransactionRepository transactionRepository;
-    @Autowired private CategoryRepository categoryRepository;
 
     @GetMapping
     public List<Product> getAll() { return productRepository.findAll(); }
+
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam String query) {
+        // Trimitem același text și pentru nume și pentru SKU
+        return productRepository.findByNumeContainingIgnoreCaseOrSkuContainingIgnoreCase(query, query);
+    }
 
     @GetMapping("/transactions")
     public List<Transaction> getTransactions() { return transactionRepository.findAllByOrderByDataDesc(); }

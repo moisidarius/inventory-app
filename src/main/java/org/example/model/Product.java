@@ -14,6 +14,4 @@ public class Product {
     private Integer stoc;
     private Integer stocMinim = 5;
 
-    @ManyToOne
-    private Category categorie;
 }

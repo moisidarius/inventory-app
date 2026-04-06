@@ -11,42 +11,42 @@
 
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #e0e0e0; padding-bottom: 20px; }
         h1 { margin: 0; font-size: 24px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+
         .tabs { display: flex; gap: 5px; }
         .tab-btn { padding: 10px 20px; border: none; background: none; cursor: pointer; font-weight: 500; color: #5f6368; border-radius: 8px; transition: 0.2s; }
-        .tab-btn.active { background: #e8f0fe; color: var(--primary); }
+        .tab-btn.active { background: #e8f0fe; color: var(--primary); font-weight: bold; }
+
+        .search-container { margin-bottom: 20px; }
+        .search-input { width: 100%; max-width: 400px; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; font-size: 14px; transition: 0.2s; }
+        .search-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th { text-align: left; padding: 15px; background: #f8f9fa; color: #5f6368; font-size: 13px; text-transform: uppercase; border-bottom: 2px solid #eee; }
         td { padding: 15px; border-bottom: 1px solid #f1f1f1; font-size: 15px; }
 
-        .stoc-critic { background: #fce8e6; color: var(--danger); font-weight: bold; padding: 6px 12px; border-radius: 20px; border: 1px solid #f5c2c7; display: inline-flex; align-items: center; gap: 5px; }
-        .badge-tip { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .stoc-critic { background: #fce8e6; color: var(--danger); font-weight: bold; padding: 6px 12px; border-radius: 20px; border: 1px solid #f5c2c7; }
+        .badge-tip { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
         .add { background: #e6f4ea; color: var(--success); }
         .del { background: #fce8e6; color: var(--danger); }
 
-        /* Modal Stilizat */
-        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(32,33,36,0.7); z-index:1000; align-items:center; justify-content:center; backdrop-filter: blur(4px); }
-        .modal-content { background:white; padding:30px; border-radius:16px; width:380px; box-shadow: 0 24px 38px rgba(0,0,0,0.4); animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        /* Modale */
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(32,33,36,0.6); z-index:1000; align-items:center; justify-content:center; backdrop-filter: blur(4px); }
+        .modal-content { background:white; padding:30px; border-radius:16px; width:380px; box-shadow: 0 24px 38px rgba(0,0,0,0.4); }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #5f6368; }
-        input { width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; font-size: 14px; transition: 0.2s; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,115,232,0.2); outline: none; }
 
-        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; font-size: 14px; }
+        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #1765cc; box-shadow: 0 4px 12px rgba(26,115,232,0.3); }
         .btn-outline { background: white; border: 1px solid #dadce0; color: #3c4043; }
-        .btn-danger { background: none; color: var(--danger); border: 1px solid #f5c2c7; padding: 6px 12px; border-radius: 6px; }
-        .btn-danger:hover { background: #fce8e6; }
+        .btn-danger { background: none; color: var(--danger); border: 1px solid #f5c2c7; padding: 6px 12px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>📦 InventoryPro <span style="font-size: 12px; background: #eee; padding: 2px 8px; border-radius: 10px; color: #666;">v2.0</span></h1>
+        <h1>📦 InventoryPro v2.0</h1>
         <div class="tabs">
             <button class="tab-btn active" id="btnInv" onclick="switchTab('inventar')">Stoc Actual</button>
             <button class="tab-btn" id="btnIst" onclick="switchTab('istoric')">Audit Log</button>
@@ -55,7 +55,9 @@
 
     <div id="sectiuneInventar">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="margin:0; font-size: 18px;">Listă Piese Auto</h2>
+            <div class="search-container">
+                <input type="text" id="cautaInput" class="search-input" placeholder="🔍 Caută după nume sau SKU..." onkeyup="cautaPiese()">
+            </div>
             <button class="btn btn-primary" onclick="arataLogin('adaugare')">+ Adaugă Produs</button>
         </div>
         <table>
@@ -89,10 +91,9 @@
 
 <div id="modalLogin" class="modal-overlay">
     <div class="modal-content">
-        <h2 style="margin-top:0; font-size: 20px; color: var(--primary);">🔐 Autentificare Admin</h2>
-        <p style="color: #666; font-size: 14px;">Introdu parola pentru a continua.</p>
+        <h2 style="margin-top:0; color: var(--primary);">🔐 Autentificare</h2>
         <div class="form-group">
-            <input type="password" id="passInput" placeholder="Parola administrator" onkeyup="if(event.key==='Enter') verificaLogin()">
+            <input type="password" id="passInput" class="search-input" placeholder="Parola admin" onkeyup="if(event.key==='Enter') verificaLogin()">
         </div>
         <div style="display: flex; gap: 10px; margin-top: 20px;">
             <button class="btn btn-primary" style="flex:1" onclick="verificaLogin()">Accesează</button>
@@ -103,25 +104,13 @@
 
 <div id="modalFormular" class="modal-overlay">
     <div class="modal-content">
-        <h2 style="margin-top:0; font-size: 20px; color: var(--primary);">📝 Produs Nou</h2>
-        <div class="form-group">
-            <label>Nume Piesă</label>
-            <input type="text" id="nume" placeholder="ex: Filtru polen">
-        </div>
-        <div class="form-group">
-            <label>Cod SKU</label>
-            <input type="text" id="sku" placeholder="ex: FP-2024-X">
-        </div>
-        <div class="form-group">
-            <label>Preț Bază (fără TVA)</label>
-            <input type="number" id="pret" placeholder="0.00">
-        </div>
-        <div class="form-group">
-            <label>Stoc Inițial</label>
-            <input type="number" id="stoc" placeholder="1">
-        </div>
+        <h2 style="margin-top:0; color: var(--primary);">📝 Produs Nou</h2>
+        <div class="form-group"><label>Nume</label><input type="text" id="nume" class="search-input"></div>
+        <div class="form-group"><label>SKU</label><input type="text" id="sku" class="search-input"></div>
+        <div class="form-group"><label>Preț Bază</label><input type="number" id="pret" class="search-input"></div>
+        <div class="form-group"><label>Stoc</label><input type="number" id="stoc" class="search-input"></div>
         <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <button class="btn btn-primary" style="flex:1" onclick="salveazaPiesa()">Salvează în Bază</button>
+            <button class="btn btn-primary" style="flex:1" onclick="salveazaPiesa()">Salvează</button>
             <button class="btn btn-outline" style="flex:1" onclick="inchideModal('modalFormular')">Închide</button>
         </div>
     </div>
@@ -130,70 +119,80 @@
 <script>
     const API = '/api/v1/inventory';
     let adminPass = "";
-    let actiuneCurenta = ""; // adaugare sau stergere
+    let actiuneCurenta = "";
     let idDeSters = null;
 
+    // 1. Încărcare piese (Stoc Actual)
+    async function incarcaPiese() {
+        try {
+            const res = await fetch(API);
+            const date = await res.json();
+            rendereazaTabel(date);
+        } catch (e) { console.error("Eroare la încărcare:", e); }
+    }
+
+    // 2. Încărcare Istoric (Audit Log)
+    async function incarcaIstoric() {
+        try {
+            const res = await fetch(`${API}/transactions`);
+            const date = await res.json();
+            document.getElementById('listaIstoric').innerHTML = date.map(t => `
+                <tr>
+                    <td><small>${new Date(t.data).toLocaleString('ro-RO')}</small></td>
+                    <td><strong>${t.numeProdus}</strong></td>
+                    <td>${t.cantitate} buc</td>
+                    <td><span class="badge-tip ${t.tip === 'ADAUGARE' ? 'add' : 'del'}">${t.tip}</span></td>
+                </tr>`).join('');
+        } catch (e) { console.error("Eroare la istoric:", e); }
+    }
+
+    // 3. Căutare piese
+    async function cautaPiese() {
+        const query = document.getElementById('cautaInput').value;
+        if (query.length === 0) { incarcaPiese(); return; }
+
+        const res = await fetch(`${API}/search?query=${query}`);
+        const date = await res.json();
+        rendereazaTabel(date);
+    }
+
+    // 4. Desenare tabel inventar
+    function rendereazaTabel(date) {
+        document.getElementById('listaPiese').innerHTML = date.map(p => `
+            <tr>
+                <td><strong>${p.nume}</strong><br><small style="color:#888">${p.sku}</small></td>
+                <td><strong>${(p.pretBaza * 1.19).toFixed(2)}</strong> <small>RON</small></td>
+                <td><span class="${p.stoc <= 5 ? 'stoc-critic' : ''}">${p.stoc} buc</span></td>
+                <td><button class="btn btn-danger" onclick="arataLogin('stergere', ${p.id})">Șterge</button></td>
+            </tr>`).join('');
+    }
+
+    // 5. Switch Tab-uri
+    function switchTab(tab) {
+        document.getElementById('sectiuneInventar').style.display = tab === 'inventar' ? 'block' : 'none';
+        document.getElementById('sectiuneIstoric').style.display = tab === 'istoric' ? 'block' : 'none';
+
+        document.getElementById('btnInv').classList.toggle('active', tab === 'inventar');
+        document.getElementById('btnIst').classList.toggle('active', tab === 'istoric');
+
+        if (tab === 'istoric') incarcaIstoric();
+    }
+
+    // 6. Login & CRUD
     function arataLogin(tip, id = null) {
-        actiuneCurenta = tip;
-        idDeSters = id;
-        document.getElementById('passInput').value = "";
+        actiuneCurenta = tip; idDeSters = id;
         document.getElementById('modalLogin').style.display = 'flex';
         document.getElementById('passInput').focus();
     }
 
     function verificaLogin() {
-        const input = document.getElementById('passInput').value;
-        if (input === "darius-admin-123") {
-            adminPass = input;
+        const p = document.getElementById('passInput').value;
+        if (p === "darius-admin-123") {
+            adminPass = p;
             inchideModal('modalLogin');
-            if (actiuneCurenta === 'adaugare') {
-                document.getElementById('modalFormular').style.display = 'flex';
-            } else if (actiuneCurenta === 'stergere') {
-                executaStergere(idDeSters);
-            }
-        } else {
-            alert("Parolă incorectă!");
-        }
-    }
-
-    function inchideModal(id) {
-        document.getElementById(id).style.display = 'none';
-    }
-
-    async function incarcaPiese() {
-        const res = await fetch(API);
-        const date = await res.json();
-        document.getElementById('listaPiese').innerHTML = date.map(p => `
-            <tr>
-                <td><strong>${p.nume}</strong><br><small style="color:#888">${p.sku}</small></td>
-                <td><strong>${(p.pretBaza * 1.19).toFixed(2)}</strong> <small>RON</small></td>
-                <td>
-                    <span class="${p.stoc <= p.stocMinim ? 'stoc-critic' : ''}">
-                        ${p.stoc} buc ${p.stoc <= p.stocMinim ? '⚠️' : ''}
-                    </span>
-                </td>
-                <td><button class="btn btn-danger" onclick="arataLogin('stergere', ${p.id})">Șterge</button></td>
-            </tr>`).join('');
-    }
-
-    async function incarcaIstoric() {
-        const res = await fetch(`${API}/transactions`);
-        const date = await res.json();
-        document.getElementById('listaIstoric').innerHTML = date.map(t => `
-            <tr>
-                <td><small>${new Date(t.data).toLocaleString('ro-RO')}</small></td>
-                <td><strong>${t.numeProdus}</strong></td>
-                <td>${t.cantitate} buc</td>
-                <td><span class="badge-tip ${t.tip === 'ADAUGARE' ? 'add' : 'del'}">${t.tip}</span></td>
-            </tr>`).join('');
-    }
-
-    function switchTab(tab) {
-        document.getElementById('sectiuneInventar').style.display = tab === 'inventar' ? 'block' : 'none';
-        document.getElementById('sectiuneIstoric').style.display = tab === 'istoric' ? 'block' : 'none';
-        document.getElementById('btnInv').classList.toggle('active', tab === 'inventar');
-        document.getElementById('btnIst').classList.toggle('active', tab === 'istoric');
-        if(tab === 'istoric') incarcaIstoric();
+            if (actiuneCurenta === 'adaugare') document.getElementById('modalFormular').style.display = 'flex';
+            else executaStergere(idDeSters);
+        } else alert("Parolă incorectă!");
     }
 
     async function salveazaPiesa() {
@@ -203,29 +202,25 @@
             pretBaza: parseFloat(document.getElementById('pret').value),
             stoc: parseInt(document.getElementById('stoc').value)
         };
-
         const res = await fetch(API, {
-            method:'POST',
-            headers:{'Content-Type':'application/json','Authorization': adminPass},
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': adminPass},
             body: JSON.stringify(p)
         });
-
-        if(res.ok) {
-            inchideModal('modalFormular');
-            incarcaPiese();
-        } else {
-            alert("Eroare la salvare!");
-        }
+        if (res.ok) { inchideModal('modalFormular'); incarcaPiese(); }
     }
 
     async function executaStergere(id) {
         const res = await fetch(`${API}/${id}`, {
-            method:'DELETE',
-            headers:{'Authorization': adminPass}
+            method: 'DELETE',
+            headers: {'Authorization': adminPass}
         });
-        if(res.ok) incarcaPiese(); else alert("Eroare la ștergere!");
+        if (res.ok) incarcaPiese();
     }
 
+    function inchideModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    // Start
     incarcaPiese();
 </script>
 </body>
